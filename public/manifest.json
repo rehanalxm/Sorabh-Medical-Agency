@@ -1,0 +1,24 @@
+{
+  "name": "Saurabh Medicals Store - Wholesale Pharma",
+  "short_name": "Saurabh Medicals",
+  "description": "Wholesale pharmaceutical distributor supplying Generic, Surgical, Ayurvedic and OTC medicines in Bhagalpur, Bihar.",
+  "start_url": "/store",
+  "display": "standalone",
+  "background_color": "#0b1e36",
+  "theme_color": "#0b1e36",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=192&q=80",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=512&q=80",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
