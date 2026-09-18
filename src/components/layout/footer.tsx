@@ -69,7 +69,7 @@ export function Footer() {
 
               {/* Responsive Google Maps Iframe */}
               <iframe
-                title="Sorabh Medical Agency Live Location"
+                title="Saurav Medical Agency Live Location"
                 src="https://maps.google.com/maps?q=Kotwali+Chowk,+Bhagalpur,+Bihar+812002&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="150"

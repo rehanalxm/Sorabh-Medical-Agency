@@ -103,7 +103,7 @@ export function DocumentPreviewModal({
             <div className="grid sm:grid-cols-2 gap-4 text-xs md:text-sm mb-6">
               <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200/80">
                 <span className="text-slate-500 text-xs block mb-0.5">Registration / License Holder</span>
-                <span className="font-semibold text-slate-900">M/s Sorabh Medical</span>
+                <span className="font-semibold text-slate-900">M/s Saurav Medical</span>
                 <span className="text-slate-500 text-xs block mt-0.5">Wholesale Pharmaceutical Distributors</span>
               </div>
 

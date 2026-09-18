@@ -64,7 +64,7 @@ export function OwnerSection() {
                     {COMPANY_DETAILS.role}
                   </p>
                   <p className="text-[11px] text-slate-300 mt-0.5">
-                    Sorabh Medical Agency • Kotwali Chowk, Bhagalpur
+                    Saurav Medical Agency • Kotwali Chowk, Bhagalpur
                   </p>
 
                   <div className="mt-3 pt-2.5 border-t border-white/20 flex items-center justify-between text-xs">
@@ -97,7 +97,7 @@ export function OwnerSection() {
             </div>
 
             <p className="text-slate-700 text-xs sm:text-sm leading-relaxed">
-              Santosh Kumar established Sorabh Medical Agency in 2004 at Kotwali Chowk, Bhagalpur. Over the past twenty years, we have built long-standing relationships with retail chemists and doctors by delivering genuine medicines with total transparency and honest pricing.
+              Santosh Kumar established Saurav Medical Agency in 2004 at Kotwali Chowk, Bhagalpur. Over the past twenty years, we have built long-standing relationships with retail chemists and doctors by delivering genuine medicines with total transparency and honest pricing.
             </p>
 
             {/* Quote Callout */}

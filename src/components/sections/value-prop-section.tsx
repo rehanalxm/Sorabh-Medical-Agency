@@ -42,7 +42,7 @@ export function ValuePropSection() {
             Why Choose Us
           </Badge>
           <h2 className="text-2xl sm:text-3xl font-black text-[#0b1e36] tracking-tight">
-            Why Medical Stores Trust Sorabh Medical Agency
+            Why Medical Stores Trust Saurav Medical Agency
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
             Everything your pharmacy needs to run smoothly: 100% genuine medicines, good margins, fast delivery, and honest bills.

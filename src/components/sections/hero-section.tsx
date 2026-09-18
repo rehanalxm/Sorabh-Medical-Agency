@@ -3,27 +3,26 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   ShieldCheck,
   Building2,
   ArrowRight,
   Truck,
   Phone,
-  UserCheck,
-  FileCheck2,
   Store,
   MapPin,
+  FileCheck2,
+  Sparkles,
 } from "lucide-react";
 import { COMPANY_DETAILS } from "@/lib/data";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-white pt-6 pb-12 sm:pt-12 sm:pb-16 border-b border-slate-200/80 bg-subtle-dots">
-      {/* Background Subtle Gradient Highlights */}
-      <div className="absolute inset-0 pointer-events-none opacity-50">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-teal-50/70 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-10 w-80 h-80 bg-slate-100/80 rounded-full blur-2xl" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50/50 pt-6 pb-12 sm:pt-12 sm:pb-16 border-b border-slate-200/80">
+      {/* Soft Ambient Glows (Clean Medical Feel - No Dotted Background) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-24 right-1/4 w-96 h-96 bg-teal-100/40 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 -left-20 w-80 h-80 bg-blue-100/30 rounded-full blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,35 +30,40 @@ export function HeroSection() {
           {/* Left Column: Copy & CTAs (7 cols) */}
           <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
             {/* Top Wholesale Classification Tag */}
-            <div className="inline-flex flex-wrap items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-semibold text-slate-800 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-teal-600" />
+            <div className="inline-flex flex-wrap items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-teal-200/80 text-xs font-semibold shadow-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-600" />
+              </span>
               <span className="text-[#0b1e36] font-bold">Wholesale Medicine Distributor</span>
-              <span className="text-slate-300">|</span>
-              <span className="text-slate-600 font-normal">Bhagalpur, Bihar</span>
+              <span className="text-slate-300">•</span>
+              <span className="text-slate-600 font-medium">Bhagalpur, Bihar</span>
             </div>
 
             {/* Headline */}
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-[#0b1e36] leading-[1.15]">
                 {COMPANY_DETAILS.name}
               </h1>
-              <p className="text-base sm:text-xl font-bold text-teal-700">
+              <p className="text-base sm:text-xl font-bold text-teal-700 leading-snug">
                 Reliable medicine supply for retail pharmacies and clinics.
               </p>
             </div>
 
-            {/* Supporting Text in Simple Natural English */}
+            {/* Supporting Text in Clean English */}
             <p className="text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed max-w-2xl">
               Led by proprietor <strong className="text-slate-900">{COMPANY_DETAILS.ownerName}</strong> since 2004.
               We supply 100% genuine generic medicines, hospital surgical items, Ayurvedic syrups, and daily healthcare products directly to local chemist shops with honest wholesale rates and fast local delivery.
             </p>
 
             {/* Visiting Address Bar */}
-            <div className="p-3 rounded-xl bg-white border border-slate-200 text-xs text-slate-700 flex items-start gap-2.5 shadow-xs">
-              <MapPin className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+            <div className="p-3.5 rounded-xl bg-white border border-slate-200/90 text-xs text-slate-700 flex items-start gap-2.5 shadow-xs">
+              <div className="w-7 h-7 rounded-lg bg-teal-50 border border-teal-100 flex items-center justify-center shrink-0 mt-0.5">
+                <MapPin className="w-3.5 h-3.5 text-teal-600" />
+              </div>
               <div>
-                <span className="font-bold text-slate-900">Trade Location: </span>
-                <span>{COMPANY_DETAILS.address}</span>
+                <span className="font-bold text-slate-900 block sm:inline">Trade Location: </span>
+                <span className="text-slate-600">{COMPANY_DETAILS.address}</span>
               </div>
             </div>
 
@@ -68,7 +72,7 @@ export function HeroSection() {
               <Button
                 variant="primary"
                 size="lg"
-                className="group shadow-sm hover:shadow text-xs sm:text-sm font-bold bg-[#0b1e36] hover:bg-[#163b65] h-11"
+                className="group shadow-sm hover:shadow text-xs sm:text-sm font-bold bg-[#0b1e36] hover:bg-[#163b65] h-11 rounded-xl"
                 asChild
               >
                 <Link href="/store" className="flex items-center justify-center gap-2">
@@ -81,11 +85,16 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="text-xs sm:text-sm border-slate-300 hover:bg-slate-50 text-slate-800 font-semibold h-11"
+                className="text-xs sm:text-sm border-slate-300 hover:bg-slate-50 text-slate-800 font-semibold h-11 rounded-xl"
                 asChild
               >
-                <a href={COMPANY_DETAILS.whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
-                  <Phone className="w-4 h-4 text-teal-600" />
+                <a
+                  href={COMPANY_DETAILS.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-4 h-4 text-emerald-600" />
                   <span>Order on WhatsApp / Call</span>
                 </a>
               </Button>
@@ -95,15 +104,15 @@ export function HeroSection() {
             <div className="pt-3 border-t border-slate-200/80 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-slate-600">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-teal-600 shrink-0" />
-                <span className="font-medium text-slate-700">100% Genuine Medicines</span>
+                <span className="font-semibold text-slate-800">100% Genuine Medicines</span>
               </div>
               <div className="flex items-center gap-2">
                 <Building2 className="w-4 h-4 text-teal-600 shrink-0" />
-                <span className="font-medium text-slate-700">21+ Direct Pharma Brands</span>
+                <span className="font-semibold text-slate-800">21+ Direct Pharma Brands</span>
               </div>
               <div className="flex items-center gap-2">
                 <Truck className="w-4 h-4 text-teal-600 shrink-0" />
-                <span className="font-medium text-slate-700">Same-Day Local Delivery</span>
+                <span className="font-semibold text-slate-800">Same-Day Local Delivery</span>
               </div>
             </div>
           </div>
@@ -140,7 +149,7 @@ export function HeroSection() {
                     {COMPANY_DETAILS.role}
                   </p>
                   <p className="text-[11px] text-slate-300 mt-0.5">
-                    Sorabh Medical Agency • Bhagalpur
+                    Saurav Medical Agency • Bhagalpur
                   </p>
 
                   <div className="mt-3 pt-2.5 border-t border-white/20 flex items-center justify-between text-xs">

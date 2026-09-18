@@ -14,13 +14,13 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Sorabh Medical Agency | Wholesale Pharmaceutical Distributor & Stockist, Bhagalpur",
-    template: "%s | Sorabh Medical Agency",
+    default: "Saurav Medical Agency | Wholesale Pharmaceutical Distributor & Stockist, Bhagalpur",
+    template: "%s | Saurav Medical Agency",
   },
   description:
-    "Sorabh Medical Agency (Proprietor: Santosh Kumar) — Leading wholesale pharmaceutical distributor & authorized medicine stockist in Bhagalpur, Bihar. Supplying genuine Generic, Ethical, Surgical, Ayurvedic, and OTC formulations to licensed retail pharmacies at direct depot PTR rates.",
+    "Saurav Medical Agency (Proprietor: Santosh Kumar) — Leading wholesale pharmaceutical distributor & authorized medicine stockist in Bhagalpur, Bihar. Supplying genuine Generic, Ethical, Surgical, Ayurvedic, and OTC formulations to licensed retail pharmacies at direct depot PTR rates.",
   keywords: [
-    "Sorabh Medical Agency",
+    "Saurav Medical Agency",
     "Santosh Kumar Bhagalpur",
     "wholesale medicine distributor Bhagalpur",
     "pharma stockist Bihar",
@@ -31,14 +31,14 @@ export const metadata: Metadata = {
     "Alkem Cipla Mankind wholesale stockist",
     "Kotwali Chowk pharma agency",
   ],
-  authors: [{ name: "Sorabh Medical Agency" }],
+  authors: [{ name: "Saurav Medical Agency" }],
   openGraph: {
-    title: "Sorabh Medical Agency | Wholesale Pharmaceutical Distributor, Bhagalpur",
+    title: "Saurav Medical Agency | Wholesale Pharmaceutical Distributor, Bhagalpur",
     description:
       "Direct wholesale distributor of Generic, Surgical, Ayurvedic & OTC Medicines for licensed retail pharmacies. Kotwali Chowk, Bhagalpur - 812002. Mob: 7070605245.",
     type: "website",
     locale: "en_IN",
-    siteName: "Sorabh Medical Agency",
+    siteName: "Saurav Medical Agency",
   },
   manifest: "/manifest.json",
   icons: {

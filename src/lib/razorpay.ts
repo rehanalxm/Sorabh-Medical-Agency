@@ -28,6 +28,6 @@ export function verifyRazorpaySignature(
 export const RAZORPAY_CONFIG = {
   keyId: process.env.RAZORPAY_KEY_ID || "rzp_test_placeholder_key",
   keySecret: process.env.RAZORPAY_KEY_SECRET || "rzp_test_placeholder_secret",
-  merchantName: "Sorabh Medical Agency",
+  merchantName: "Saurav Medical Agency",
   currency: "INR",
 };

@@ -97,7 +97,7 @@ export function FloatingActions() {
               </div>
               <div>
                 <h3 className="font-extrabold text-base text-[#0b1e36] leading-tight">
-                  Install Sorabh Medical Agency App
+                  Install Saurav Medical Agency App
                 </h3>
                 <p className="text-xs text-teal-700 font-semibold">
                   Fast 1-Tap Ordering & Offline Invoices

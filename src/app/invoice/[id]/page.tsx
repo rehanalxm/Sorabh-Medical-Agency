@@ -43,7 +43,7 @@ export default function InvoicePage() {
       .join("\n");
 
     const message =
-      `📄 *WHOLESALE TAX INVOICE — SORABH MEDICAL AGENCY*\n` +
+      `📄 *WHOLESALE TAX INVOICE — SAURAV MEDICAL AGENCY*\n` +
       `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
       `*Invoice No:* ${order.id}\n` +
       `*Date:* ${order.orderDate}\n` +
@@ -56,7 +56,7 @@ export default function InvoicePage() {
       `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
       `*Final Invoice Total:* ₹${order.totalAmount.toFixed(2)}\n\n` +
       `🔗 *Tap to View / Print Legal Bill:* \n${invoiceUrl}\n\n` +
-      `_Sorabh Medical Agency • Kotwali Chowk, Bhagalpur_\n` +
+      `_Saurav Medical Agency • Kotwali Chowk, Bhagalpur_\n` +
       `_Phone/Orders: +91 7070605245_`;
 
     window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`, "_blank");

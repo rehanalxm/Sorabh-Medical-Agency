@@ -328,7 +328,7 @@ export default function CheckoutPage() {
                       <div className="w-32 h-32 rounded-xl bg-white border-2 border-slate-300 p-1.5 flex flex-col items-center justify-center shrink-0 shadow-xs">
                         <img
                           src="/payment-qr.png"
-                          alt="Sorabh Medical Agency Merchant QR"
+                          alt="Saurav Medical Agency Merchant QR"
                           className="w-full h-full object-contain rounded-lg"
                         />
                       </div>
@@ -360,7 +360,7 @@ export default function CheckoutPage() {
                         {/* Direct Tap to Pay with UPI App */}
                         <div className="pt-2">
                           <a
-                            href={`upi://pay?pa=${COMPANY_DETAILS.upiId}&pn=${encodeURIComponent(COMPANY_DETAILS.name)}&am=${totalAmount.toFixed(2)}&cu=INR&tn=Sorabh%20Medical%20Order`}
+                            href={`upi://pay?pa=${COMPANY_DETAILS.upiId}&pn=${encodeURIComponent(COMPANY_DETAILS.name)}&am=${totalAmount.toFixed(2)}&cu=INR&tn=Saurav%20Medical%20Order`}
                             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0b1e36] hover:bg-[#163b65] text-white font-bold text-xs shadow-xs transition-all active:scale-95"
                           >
                             <QrCode className="w-3.5 h-3.5 text-teal-400" />

@@ -18,7 +18,7 @@ export function JourneySection() {
             Over 20 Years of Reliable Service in Bhagalpur
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-            How Sorabh Medical Agency grew from a local medicine supplier into a trusted wholesale partner for 200+ pharmacies and clinics.
+            How Saurav Medical Agency grew from a local medicine supplier into a trusted wholesale partner for 200+ pharmacies and clinics.
           </p>
         </div>
 
