@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { CategoryScroller } from "@/components/store/category-scroller";
 import { OfferCarousel } from "@/components/store/offer-carousel";
 import { ProductCard } from "@/components/store/product-card";
+import { ProductDetailModal } from "@/components/store/product-detail-modal";
 import { CartDrawer } from "@/components/layout/cart-drawer";
 import {
   DUMMY_PRODUCTS,
@@ -45,6 +46,7 @@ export default function StorePage() {
   const [cartDrawerOpen, setCartDrawerOpen] = useState<boolean>(false);
   const [companyModalOpen, setCompanyModalOpen] = useState<boolean>(false);
   const [companySearchQuery, setCompanySearchQuery] = useState<string>("");
+  const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
 
   const syncCart = () => {
     const cart = getStoredCart();
@@ -135,19 +137,19 @@ export default function StorePage() {
       <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-3.5 sm:space-y-5">
         {/* Page Breadcrumb / Active Indicator */}
         <div className="flex items-center justify-between py-1 text-xs text-slate-500">
-          <div className="flex items-center gap-1.5 font-medium">
-            <Link href="/" className="hover:text-slate-900 transition-colors">
+          <div className="flex items-center gap-1.5 font-medium min-w-0 truncate">
+            <Link href="/" className="hover:text-slate-900 transition-colors shrink-0">
               Home
             </Link>
             <span>/</span>
-            <span className="font-bold text-[#0b1e36] flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-600 animate-pulse" />
+            <span className="font-bold text-[#0b1e36] flex items-center gap-1 truncate">
+              <span className="w-1.5 h-1.5 rounded-full bg-teal-600 animate-pulse shrink-0" />
               Wholesale Store
             </span>
           </div>
           <Badge
             variant="outline"
-            className="text-[10px] sm:text-[11px] bg-teal-50 text-teal-800 font-semibold border-teal-200/80 px-2 py-0.5 rounded-full"
+            className="hidden sm:inline-flex text-[10px] sm:text-[11px] bg-teal-50 text-teal-800 font-semibold border-teal-200/80 px-2 py-0.5 rounded-full shrink-0"
           >
             Form 20B/21B Wholesale Desk
           </Badge>
@@ -186,73 +188,13 @@ export default function StorePage() {
             selectedCompany={selectedCompany}
             onOpenCompanyFilter={() => setCompanyModalOpen(true)}
           />
-
-          {/* Active Filter Chips & Item Count Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 text-xs">
-            <div className="flex items-center flex-wrap gap-1.5">
-              <span className="text-[11px] text-slate-500 font-medium">
-                Showing <strong>{products.length}</strong> items
-              </span>
-
-              {/* Active Company Chip */}
-              {selectedCompany !== "All" && (
-                <span className="inline-flex items-center gap-1 bg-teal-50 text-teal-800 border border-teal-200 text-[11px] font-bold px-2 py-0.5 rounded-full animate-in fade-in">
-                  <span>Brand: {selectedCompany}</span>
-                  <button
-                    onClick={() => setSelectedCompany("All")}
-                    className="hover:text-teal-950 p-0.5"
-                    title="Remove brand filter"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
-              )}
-
-              {/* Active Category Chip */}
-              {selectedCategory !== "All" && (
-                <span className="inline-flex items-center gap-1 bg-slate-100 text-slate-800 border border-slate-200 text-[11px] font-semibold px-2 py-0.5 rounded-full animate-in fade-in">
-                  <span>Type: {selectedCategory}</span>
-                  <button
-                    onClick={() => setSelectedCategory("All")}
-                    className="hover:text-slate-950 p-0.5"
-                    title="Remove category filter"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                </span>
-              )}
-
-              {/* Reset all filters button */}
-              {(selectedCompany !== "All" || selectedCategory !== "All" || searchQuery) && (
-                <button
-                  onClick={() => {
-                    setSelectedCategory("All");
-                    setSelectedCompany("All");
-                    setSearchQuery("");
-                  }}
-                  className="text-[10px] text-red-600 hover:text-red-700 font-bold underline ml-1"
-                >
-                  Clear All
-                </button>
-              )}
-            </div>
-
-            {/* Quick Filter Open Button (if not already opened) */}
-            <button
-              onClick={() => setCompanyModalOpen(true)}
-              className="text-[11px] font-semibold text-teal-700 hover:text-teal-900 flex items-center gap-1 shrink-0"
-            >
-              <SlidersHorizontal className="w-3 h-3" />
-              <span>{selectedCompany !== "All" ? selectedCompany : "All 21+ Brands"}</span>
-            </button>
-          </div>
         </div>
 
         {/* Company Filter Modal */}
         <Dialog open={companyModalOpen} onOpenChange={setCompanyModalOpen}>
-          <DialogContent className="max-w-lg p-5 sm:p-6 rounded-2xl max-h-[85vh] overflow-hidden flex flex-col">
-            <DialogHeader className="space-y-1 pb-3 border-b border-slate-100">
-              <DialogTitle className="text-lg font-bold text-[#0b1e36] flex items-center gap-2">
+          <DialogContent className="w-[calc(100vw-1.5rem)] max-w-lg p-4 sm:p-5 rounded-2xl max-h-[85vh] overflow-hidden flex flex-col box-border">
+            <DialogHeader className="space-y-1 pb-2.5 border-b border-slate-100 pr-6">
+              <DialogTitle className="text-base sm:text-lg font-bold text-[#0b1e36] flex items-center gap-2">
                 <SlidersHorizontal className="w-4 h-4 text-teal-600" />
                 Filter by Pharma Company
               </DialogTitle>
@@ -262,7 +204,7 @@ export default function StorePage() {
             </DialogHeader>
 
             {/* Search within companies */}
-            <div className="py-3">
+            <div className="py-2.5">
               <div className="relative">
                 <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
@@ -276,7 +218,7 @@ export default function StorePage() {
             </div>
 
             {/* List / Grid of Companies */}
-            <div className="flex-1 overflow-y-auto space-y-2 pr-1 -mr-1">
+            <div className="flex-1 overflow-y-auto space-y-2 pr-1 w-full overflow-x-hidden">
               {/* All Companies Option */}
               <button
                 onClick={() => {
@@ -289,9 +231,9 @@ export default function StorePage() {
                     : "bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-800"
                 }`}
               >
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2.5 min-w-0">
                   <div
-                    className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs ${
+                    className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 ${
                       selectedCompany === "All"
                         ? "bg-teal-500 text-white"
                         : "bg-slate-200 text-slate-700"
@@ -299,10 +241,10 @@ export default function StorePage() {
                   >
                     ★
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-xs font-bold">All 21+ Companies</p>
                     <p
-                      className={`text-[10px] ${
+                      className={`text-[10px] truncate ${
                         selectedCompany === "All" ? "text-slate-300" : "text-slate-500"
                       }`}
                     >
@@ -310,11 +252,11 @@ export default function StorePage() {
                     </p>
                   </div>
                 </div>
-                {selectedCompany === "All" && <Check className="w-4 h-4 text-teal-300" />}
+                {selectedCompany === "All" && <Check className="w-4 h-4 text-teal-300 shrink-0 ml-2" />}
               </button>
 
               {/* Company Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 w-full">
                 {filteredCompanies.map((company) => {
                   const isSelected =
                     selectedCompany.toLowerCase() === company.name.toLowerCase();
@@ -325,7 +267,7 @@ export default function StorePage() {
                         setSelectedCompany(company.name);
                         setCompanyModalOpen(false);
                       }}
-                      className={`flex items-center justify-between p-2.5 rounded-xl border text-left transition-all group ${
+                      className={`flex items-center justify-between p-2.5 rounded-xl border text-left transition-all group w-full min-w-0 ${
                         isSelected
                           ? "bg-teal-50 border-teal-500 text-teal-950 shadow-xs ring-1 ring-teal-500"
                           : "bg-white hover:bg-slate-50 border-slate-200 text-slate-800"
@@ -367,13 +309,13 @@ export default function StorePage() {
             </div>
 
             {/* Modal Bottom Actions */}
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+            <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between gap-2 shrink-0 w-full">
               <button
                 onClick={() => {
                   setSelectedCompany("All");
                   setCompanyModalOpen(false);
                 }}
-                className="text-xs font-bold text-slate-600 hover:text-slate-900"
+                className="text-xs font-bold text-slate-600 hover:text-slate-900 truncate"
               >
                 Clear Brand Filter
               </button>
@@ -381,7 +323,7 @@ export default function StorePage() {
                 variant="primary"
                 size="sm"
                 onClick={() => setCompanyModalOpen(false)}
-                className="bg-[#0b1e36] text-white text-xs h-8 px-4"
+                className="bg-[#0b1e36] text-white text-xs h-8 px-5 shrink-0"
               >
                 Done
               </Button>
@@ -419,54 +361,60 @@ export default function StorePage() {
                 quantity={cartQuantities[product.id] || 0}
                 onAddToCart={handleAddToCart}
                 onUpdateQuantity={handleUpdateQuantity}
+                onSelectProduct={(p) => setSelectedProduct(p)}
               />
             ))
           )}
         </div>
       </div>
 
-      {/* Floating Bottom Cart Bar for Quick Checkout on Mobile */}
+      {/* Floating Bottom Cart Bar (Floats above mobile bottom nav with ample clearance) */}
       {totalCartItems > 0 && (
-        <div className="fixed bottom-14 md:bottom-6 left-1/2 -translate-x-1/2 z-30 w-full max-w-md px-4 animate-in slide-in-from-bottom duration-300">
-          <div className="bg-[#0b1e36] text-white rounded-2xl p-3 sm:p-3.5 shadow-xl border border-teal-500/40 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-[#0d9488] text-white flex items-center justify-center font-bold">
-                <ShoppingBag className="w-4 h-4" />
+        <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-30 w-auto max-w-[92vw] animate-in slide-in-from-bottom-4 duration-300 pointer-events-none">
+          <div className="pointer-events-auto bg-[#0b1e36]/95 backdrop-blur-md text-white rounded-full py-1.5 px-3 sm:py-2 sm:px-4 shadow-2xl border border-teal-500/50 flex items-center justify-between gap-2.5 sm:gap-3.5">
+            <button
+              onClick={() => setCartDrawerOpen(true)}
+              className="flex items-center gap-2 text-left hover:opacity-90 transition-opacity"
+            >
+              <div className="w-7 h-7 rounded-full bg-[#0d9488] text-white flex items-center justify-center font-bold shrink-0 shadow-xs">
+                <ShoppingBag className="w-3.5 h-3.5" />
               </div>
-              <div>
-                <p className="text-xs font-bold text-teal-300">
-                  {totalCartItems} Box{totalCartItems !== 1 ? "es" : ""} in Cart
-                </p>
-                <p className="text-[10px] text-slate-300">
-                  Click to review and generate tax bill
-                </p>
+              <div className="leading-none">
+                <span className="text-xs font-black text-teal-300">
+                  {totalCartItems} Box{totalCartItems !== 1 ? "es" : ""}
+                </span>
+                <span className="text-[10px] text-slate-300 block mt-0.5">
+                  View Cart
+                </span>
               </div>
-            </div>
+            </button>
 
-            <div className="flex items-center gap-1.5">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCartDrawerOpen(true)}
-                className="bg-slate-800 text-white border-slate-700 hover:bg-slate-700 text-xs px-2.5 h-8"
-              >
-                Review
-              </Button>
-              <Button
-                variant="accent"
-                size="sm"
-                asChild
-                className="bg-[#0d9488] hover:bg-[#0f766e] text-white font-bold text-xs px-3 h-8"
-              >
-                <Link href="/checkout" className="flex items-center gap-1">
-                  <span>Checkout</span>
-                  <ArrowRight className="w-3 h-3" />
-                </Link>
-              </Button>
-            </div>
+            <div className="h-5 w-px bg-white/20 shrink-0" />
+
+            <Button
+              variant="accent"
+              size="sm"
+              asChild
+              className="bg-[#0d9488] hover:bg-[#0f766e] text-white font-black text-xs px-3.5 h-7 sm:h-8 rounded-full shadow-xs shrink-0"
+            >
+              <Link href="/checkout" className="flex items-center gap-1">
+                <span>Checkout</span>
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </Button>
           </div>
         </div>
       )}
+
+      {/* Individual Product Detail Modal */}
+      <ProductDetailModal
+        product={selectedProduct}
+        isOpen={!!selectedProduct}
+        onClose={() => setSelectedProduct(null)}
+        quantity={selectedProduct ? cartQuantities[selectedProduct.id] || 0 : 0}
+        onAddToCart={handleAddToCart}
+        onUpdateQuantity={handleUpdateQuantity}
+      />
 
       {/* Global Shopping Cart Drawer */}
       <CartDrawer

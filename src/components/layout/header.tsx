@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MobileNav } from "@/components/layout/mobile-nav";
 import { CartDrawer } from "@/components/layout/cart-drawer";
 import { getStoredCart } from "@/lib/store";
 import {
@@ -83,23 +82,21 @@ export function Header() {
         <div
           className={`w-full transition-all duration-200 ${
             isScrolled
-              ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/90 py-2.5 sm:py-3"
-              : "bg-white border-b border-slate-200/80 py-3 sm:py-3.5"
+              ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/90 py-2 sm:py-3"
+              : "bg-white border-b border-slate-200/80 py-2.5 sm:py-3.5"
           }`}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4">
             {/* Logo Brand Identity */}
-            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 shrink-0 group">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#0b1e36] text-white flex items-center justify-center font-extrabold text-lg sm:text-xl shadow-sm group-hover:bg-[#163b65] transition-colors border border-teal-500/20">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial group">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#0b1e36] text-white flex items-center justify-center font-extrabold text-sm sm:text-xl shadow-sm group-hover:bg-[#163b65] transition-colors border border-teal-500/20 shrink-0">
                 <span className="tracking-tighter">SM</span>
               </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-[#0b1e36] text-base sm:text-lg tracking-tight block leading-tight">
-                    {COMPANY_DETAILS.name}
-                  </span>
-                </div>
-                <span className="text-[10px] sm:text-[11px] font-semibold tracking-wider text-teal-700 uppercase block">
+              <div className="min-w-0 flex-1">
+                <span className="font-extrabold text-[#0b1e36] text-xs sm:text-lg tracking-tight block leading-tight truncate">
+                  {COMPANY_DETAILS.name}
+                </span>
+                <span className="text-[9px] sm:text-[11px] font-semibold tracking-wider text-teal-700 uppercase block truncate">
                   Wholesale Medicine Agency • Bhagalpur
                 </span>
               </div>
@@ -160,34 +157,33 @@ export function Header() {
             </nav>
 
             {/* Action Tools (Right side) */}
-            <div className="flex items-center gap-2 sm:gap-3">
-              {/* Direct Call Trigger (Mobile & Desktop) */}
+            <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+              {/* Direct Call Trigger */}
               <a
                 href={`tel:${COMPANY_DETAILS.mobile}`}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+                className="flex items-center gap-1.5 px-2 py-1.5 sm:px-2.5 sm:py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors shrink-0"
                 title="Call trade helpline"
               >
                 <Phone className="w-3.5 h-3.5 text-[#0d9488]" />
                 <span className="hidden sm:inline font-mono">{COMPANY_DETAILS.mobile}</span>
               </a>
 
-              {/* Desktop Cart Button */}
+              {/* Cart Button (Shifted here to replace hamburger on mobile) */}
               <button
                 onClick={() => setCartOpen(true)}
-                className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors relative"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-teal-50 hover:bg-teal-100/80 border border-teal-200/80 text-xs font-bold text-[#0b1e36] transition-colors relative active:scale-95 shrink-0"
                 aria-label="View Wholesale Cart"
               >
-                <ShoppingBag className="w-4 h-4 text-[#0b1e36]" />
-                <span>Cart</span>
-                {cartCount > 0 && (
-                  <span className="bg-[#0d9488] text-white text-[10px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
+                <div className="relative">
+                  <ShoppingBag className="w-4 h-4 text-teal-700" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2.5 bg-teal-600 text-white text-[9px] font-extrabold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center shadow-xs animate-in zoom-in">
+                      {cartCount}
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs font-bold text-teal-900 hidden sm:inline">Cart</span>
               </button>
-
-              {/* Mobile Menu Drawer Toggle */}
-              <MobileNav />
             </div>
           </div>
         </div>

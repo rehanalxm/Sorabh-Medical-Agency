@@ -35,6 +35,11 @@ export const metadata: Metadata = {
     locale: "en_IN",
   },
   manifest: "/manifest.json",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export const viewport: Viewport = {
@@ -50,10 +55,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen flex flex-col font-sans bg-[#f8fafc] text-[#0f172a] antialiased selection:bg-[#0b1e36] selection:text-white">
+    <html lang="en" className={`${inter.variable} overflow-x-hidden max-w-full`}>
+      <body className="min-h-screen flex flex-col font-sans bg-[#f8fafc] text-[#0f172a] antialiased selection:bg-[#0b1e36] selection:text-white overflow-x-hidden w-full max-w-full">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 w-full max-w-full overflow-x-hidden">{children}</main>
         <Footer />
         <FloatingActions />
         <BottomNav />
