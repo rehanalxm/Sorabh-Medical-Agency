@@ -89,8 +89,12 @@ export function Header() {
           <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2 sm:gap-4">
             {/* Logo Brand Identity */}
             <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 sm:flex-initial group">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#0b1e36] text-white flex items-center justify-center font-extrabold text-sm sm:text-xl shadow-sm group-hover:bg-[#163b65] transition-colors border border-teal-500/20 shrink-0">
-                <span className="tracking-tighter">SM</span>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white shadow-xs border border-slate-200/80 p-0.5 flex items-center justify-center shrink-0 group-hover:shadow-sm transition-all">
+                <img
+                  src="/logo.png"
+                  alt={COMPANY_DETAILS.name}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform"
+                />
               </div>
               <div className="min-w-0 flex-1">
                 <span className="font-extrabold text-[#0b1e36] text-xs sm:text-lg tracking-tight block leading-tight truncate">

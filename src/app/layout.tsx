@@ -13,32 +13,41 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sorabh Medical Agency | Wholesale Medicine Distributor, Bhagalpur",
+  title: {
+    default: "Sorabh Medical Agency | Wholesale Pharmaceutical Distributor & Stockist, Bhagalpur",
+    template: "%s | Sorabh Medical Agency",
+  },
   description:
-    "Sorabh Medical Agency (Proprietor: Santosh Kumar) is a leading wholesale pharmaceutical distributor in Bhagalpur, Bihar supplying Generic, Surgical, Ayurvedic, and OTC medicines to licensed retail pharmacies.",
+    "Sorabh Medical Agency (Proprietor: Santosh Kumar) — Leading wholesale pharmaceutical distributor & authorized medicine stockist in Bhagalpur, Bihar. Supplying genuine Generic, Ethical, Surgical, Ayurvedic, and OTC formulations to licensed retail pharmacies at direct depot PTR rates.",
   keywords: [
     "Sorabh Medical Agency",
     "Santosh Kumar Bhagalpur",
+    "wholesale medicine distributor Bhagalpur",
+    "pharma stockist Bihar",
     "wholesale pharmaceutical distributor",
-    "medicine wholesaler Bhagalpur",
     "generic medicines wholesale",
-    "surgical items bulk",
-    "chemist distributor Bihar",
-    "Alkem Cipla Mankind wholesale",
+    "surgical items bulk supply",
+    "chemist distributor Bhagalpur",
+    "Alkem Cipla Mankind wholesale stockist",
+    "Kotwali Chowk pharma agency",
   ],
   authors: [{ name: "Sorabh Medical Agency" }],
   openGraph: {
-    title: "Sorabh Medical Agency | Wholesale Medicine Distributor, Bhagalpur",
+    title: "Sorabh Medical Agency | Wholesale Pharmaceutical Distributor, Bhagalpur",
     description:
-      "Wholesale distributor of Generic, Surgical, Ayurvedic & OTC Medicines. Kotwali Chowk, Bhagalpur - 812002. Mob: 7070605245.",
+      "Direct wholesale distributor of Generic, Surgical, Ayurvedic & OTC Medicines for licensed retail pharmacies. Kotwali Chowk, Bhagalpur - 812002. Mob: 7070605245.",
     type: "website",
     locale: "en_IN",
+    siteName: "Sorabh Medical Agency",
   },
   manifest: "/manifest.json",
   icons: {
-    icon: "/icon.svg",
-    shortcut: "/icon.svg",
-    apple: "/icon.svg",
+    icon: [
+      { url: "/favicon.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: "/favicon.png",
+    apple: "/apple-icon.png",
   },
 };
 

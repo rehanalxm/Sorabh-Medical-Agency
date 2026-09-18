@@ -85,7 +85,12 @@ export default function InvoicePage() {
         {/* Invoice Header */}
         <div className="border-b-2 border-slate-900 pb-4 mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-3 mb-1">
+              <img
+                src="/logo.png"
+                alt={COMPANY_DETAILS.name}
+                className="w-10 h-10 sm:w-12 sm:h-12 object-contain shrink-0"
+              />
               <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0b1e36]">
                 {COMPANY_DETAILS.name}
               </span>

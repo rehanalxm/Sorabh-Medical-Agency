@@ -28,8 +28,12 @@ export function Footer() {
           {/* Brand Column (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-white text-[#0b1e36] flex items-center justify-center font-extrabold text-lg shadow border border-teal-400">
-                SM
+              <div className="w-10 h-10 rounded-xl bg-white p-0.5 flex items-center justify-center shadow border border-teal-400 shrink-0">
+                <img
+                  src="/logo.png"
+                  alt={COMPANY_DETAILS.name}
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <span className="font-extrabold text-white text-lg tracking-tight block leading-tight">
