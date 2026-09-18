@@ -452,27 +452,27 @@ export default function AccountPage() {
                     </div>
 
                     {/* Right: Total & Action Buttons */}
-                    <div className="flex sm:flex-row lg:flex-col items-start sm:items-center lg:items-end justify-between gap-3 border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-100 shrink-0">
-                      <div className="lg:text-right">
-                        <span className="text-[9px] text-slate-400 uppercase font-bold tracking-wider block">
+                    <div className="flex flex-col sm:flex-row lg:flex-col items-stretch sm:items-center lg:items-end justify-between gap-3 border-t lg:border-t-0 pt-3 lg:pt-0 border-slate-100 shrink-0 w-full sm:w-auto">
+                      <div className="flex items-baseline justify-between sm:block lg:text-right">
+                        <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
                           Tax Paid Bill Total
                         </span>
-                        <span className="text-lg sm:text-xl font-black text-[#0b1e36] font-mono">
+                        <span className="text-lg sm:text-xl font-black text-[#0b1e36] font-mono ml-2 sm:ml-0 sm:block">
                           ₹{order.totalAmount.toFixed(2)}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2">
+                      <div className="grid grid-cols-2 sm:flex items-center gap-2 w-full sm:w-auto">
                         {/* 1-Click Reorder Button */}
                         <Button
                           variant="accent"
                           size="sm"
                           onClick={() => handle1ClickReorder(order)}
-                          className="bg-[#0d9488] hover:bg-[#0f766e] text-white text-xs font-bold h-8 px-3 flex items-center gap-1.5 shadow-xs"
+                          className="bg-[#0d9488] hover:bg-[#0f766e] text-white text-xs font-bold h-9 px-2 sm:px-3 flex items-center justify-center gap-1.5 shadow-xs w-full sm:w-auto"
                           title="Reorder exact formulations and quantities into cart"
                         >
-                          <Repeat className="w-3.5 h-3.5" />
-                          <span>1-Click Reorder</span>
+                          <Repeat className="w-3.5 h-3.5 shrink-0" />
+                          <span className="truncate">1-Click Reorder</span>
                         </Button>
 
                         {/* View & Print A4 Bill Button */}
@@ -480,11 +480,11 @@ export default function AccountPage() {
                           variant="outline"
                           size="sm"
                           asChild
-                          className="text-xs font-semibold border-slate-300 h-8 px-3 flex items-center gap-1 hover:bg-slate-50 text-[#0b1e36]"
+                          className="text-xs font-semibold border-slate-300 h-9 px-2 sm:px-3 flex items-center justify-center gap-1.5 hover:bg-slate-50 text-[#0b1e36] w-full sm:w-auto"
                         >
                           <Link href={`/invoice/${order.id}`}>
-                            <Printer className="w-3.5 h-3.5 text-slate-600" />
-                            <span>Print Bill</span>
+                            <Printer className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                            <span className="truncate">Print Bill</span>
                           </Link>
                         </Button>
                       </div>

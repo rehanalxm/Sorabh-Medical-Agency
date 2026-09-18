@@ -134,7 +134,7 @@ export function Header() {
               )}
 
               <Link
-                href="/#credentials"
+                href="/licenses"
                 className="text-xs font-medium text-slate-600 hover:text-[#0b1e36] transition-colors"
               >
                 Licenses & Trust

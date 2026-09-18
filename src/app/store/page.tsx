@@ -159,7 +159,7 @@ export default function StorePage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-28 md:pb-16 pt-3 sm:pt-5 overflow-x-hidden">
+    <div className="min-h-screen bg-[#f8fafc] pb-28 md:pb-16 pt-3 sm:pt-5">
       <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-3.5 sm:space-y-5">
         {/* Page Breadcrumb / Active Indicator */}
         <div className="flex items-center justify-between py-1 text-xs text-slate-500">
@@ -184,8 +184,8 @@ export default function StorePage() {
         {/* 1. Promotional Landscape Graphic Carousel */}
         <OfferCarousel />
 
-        {/* 2. Compact Curvy Search & Category Controls */}
-        <div id="store-filters" className="bg-white rounded-2xl border border-slate-200/90 p-3 sm:p-4 shadow-xs space-y-3 sticky top-14 sm:top-16 z-20 backdrop-blur-md bg-white/95">
+        {/* 2. Compact Curvy Search & Category Controls (Sticky on scroll) */}
+        <div id="store-filters" className="bg-white/95 backdrop-blur-xl rounded-2xl border border-slate-200/90 p-3 sm:p-4 shadow-sm hover:shadow-md space-y-3 sticky top-[52px] sm:top-[68px] z-20 transition-all">
           {/* Curvy & Smaller Search Input */}
           <div className="relative w-full">
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
