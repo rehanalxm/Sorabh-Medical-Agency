@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { ProductItem, COMPANY_DETAILS } from "@/lib/data";
+import { ProductItem } from "@/lib/data";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BrandLogo } from "@/components/ui/brand-logo";
-import { Plus, Minus, ShoppingBag, ShieldCheck, Tag, Calendar, PackageCheck, MessageSquare } from "lucide-react";
+import { Plus, Minus, ShoppingBag, ShieldCheck, Tag, Calendar, PackageCheck } from "lucide-react";
 
 interface ProductDetailModalProps {
   product: ProductItem | null;
@@ -31,15 +31,6 @@ export function ProductDetailModal({
     ((product.mrp - product.wholesalePrice) / product.mrp) * 100
   );
 
-  const whatsappMessage = encodeURIComponent(
-    `Hello Sorabh Medical Agency, I am interested in wholesale order for:\n` +
-    `• Product: ${product.name}\n` +
-    `• Salt / Generic: ${product.genericName || "N/A"}\n` +
-    `• Company: ${product.company}\n` +
-    `• Pack: ${product.packSize}\n` +
-    `• Wholesale Rate: ₹${product.wholesalePrice}\n` +
-    `Please confirm ready stock and billing details.`
-  );
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
@@ -193,21 +184,6 @@ export function ProductDetailModal({
               </div>
             </div>
           )}
-
-          <a
-            href={`https://wa.me/${COMPANY_DETAILS.mobile.replace(/[^0-9]/g, "")}?text=${whatsappMessage}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full"
-          >
-            <Button
-              variant="outline"
-              className="w-full border-emerald-600 text-emerald-700 hover:bg-emerald-50 font-semibold py-5 text-xs sm:text-sm rounded-xl flex items-center justify-center gap-1.5"
-            >
-              <MessageSquare className="w-4 h-4 text-emerald-600" />
-              Inquire Slab Rate
-            </Button>
-          </a>
         </div>
       </DialogContent>
     </Dialog>

@@ -42,7 +42,7 @@ export function FloatingActions() {
   return (
     <>
       {/* Floating Action Circles (Fixed Bottom-Right, Stacked Cleanly) */}
-      <div className="fixed bottom-20 right-3.5 sm:bottom-6 sm:right-6 z-40 flex flex-col items-center gap-2.5">
+      <div className="fixed bottom-20 right-3.5 sm:bottom-6 sm:right-6 z-40 flex flex-col items-center gap-2.5 print:hidden">
         {/* Install / Download App Circular Button */}
         {!isStandalone && (
           <button

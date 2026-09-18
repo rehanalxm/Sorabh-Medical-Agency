@@ -47,7 +47,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-30 w-full transition-all duration-200">
+      <header className="sticky top-0 z-30 w-full transition-all duration-200 print:hidden">
         {/* Top Statutory Compliance Ribbon (Desktop only) */}
         <div className="bg-[#0b1e36] text-slate-300 text-xs py-1.5 px-4 border-b border-white/10 hidden md:block">
           <div className="max-w-7xl mx-auto flex items-center justify-between">

@@ -31,7 +31,7 @@ export function CategoryScroller({
         className="flex-1 min-w-0 overflow-x-auto no-scrollbar py-1 [&::-webkit-scrollbar]:hidden [&::-webkit-scrollbar]:w-0 [&::-webkit-scrollbar]:h-0"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
-        <div className="flex items-center gap-3 sm:gap-4 min-w-max pr-2">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-max pl-1.5 sm:pl-2 pr-2 py-1">
           {categories.map((cat) => {
             const Icon = cat.icon;
             const isSelected = selectedCategory === cat.id;
