@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ProductItem, DUMMY_PRODUCTS } from "./data";
+import { ProductItem, DUMMY_PRODUCTS, BrandItem, CARD_COMPANIES } from "./data";
 
 export interface CartItem {
   product: ProductItem;
@@ -371,4 +371,52 @@ export function saveProductsToStorage(products: ProductItem[]): void {
     console.error("Failed to save products", e);
   }
 }
+
+const BRANDS_STORAGE_KEY = "sms_wholesale_brands_v1";
+
+export function getStoredBrands(): BrandItem[] {
+  if (typeof window === "undefined") return CARD_COMPANIES;
+  try {
+    const raw = localStorage.getItem(BRANDS_STORAGE_KEY);
+    if (!raw) return CARD_COMPANIES;
+    return JSON.parse(raw);
+  } catch (e) {
+    return CARD_COMPANIES;
+  }
+}
+
+export function saveBrandsToStorage(brands: BrandItem[]): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(BRANDS_STORAGE_KEY, JSON.stringify(brands));
+    window.dispatchEvent(new Event("brands-updated"));
+  } catch (e) {
+    console.error("Failed to save brands", e);
+  }
+}
+
+const CATEGORIES_STORAGE_KEY = "sms_wholesale_categories_v1";
+export const DEFAULT_CATEGORIES: string[] = ["Generic", "Surgical", "Ayurvedic", "OTC"];
+
+export function getStoredCategories(): string[] {
+  if (typeof window === "undefined") return DEFAULT_CATEGORIES;
+  try {
+    const raw = localStorage.getItem(CATEGORIES_STORAGE_KEY);
+    if (!raw) return DEFAULT_CATEGORIES;
+    return JSON.parse(raw);
+  } catch (e) {
+    return DEFAULT_CATEGORIES;
+  }
+}
+
+export function saveCategoriesToStorage(categories: string[]): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(categories));
+    window.dispatchEvent(new Event("categories-updated"));
+  } catch (e) {
+    console.error("Failed to save categories", e);
+  }
+}
+
 

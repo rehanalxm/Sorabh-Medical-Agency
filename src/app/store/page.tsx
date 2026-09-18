@@ -13,9 +13,16 @@ import {
   DUMMY_PRODUCTS,
   CARD_COMPANIES,
   ProductItem,
+  BrandItem,
   COMPANY_DETAILS,
 } from "@/lib/data";
-import { getStoredCart, saveCartToStorage, CartItem } from "@/lib/store";
+import {
+  getStoredCart,
+  saveCartToStorage,
+  getStoredProducts,
+  getStoredBrands,
+  CartItem,
+} from "@/lib/store";
 import {
   Search,
   X,
@@ -37,6 +44,8 @@ import {
 } from "@/components/ui/dialog";
 
 export default function StorePage() {
+  const [allProducts, setAllProducts] = useState<ProductItem[]>(DUMMY_PRODUCTS);
+  const [allCompanies, setAllCompanies] = useState<BrandItem[]>(CARD_COMPANIES);
   const [products, setProducts] = useState<ProductItem[]>(DUMMY_PRODUCTS);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedCompany, setSelectedCompany] = useState<string>("All");
@@ -47,6 +56,13 @@ export default function StorePage() {
   const [companyModalOpen, setCompanyModalOpen] = useState<boolean>(false);
   const [companySearchQuery, setCompanySearchQuery] = useState<string>("");
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
+
+  const loadData = () => {
+    const prods = getStoredProducts();
+    setAllProducts(prods);
+    const brands = getStoredBrands();
+    setAllCompanies(brands);
+  };
 
   const syncCart = () => {
     const cart = getStoredCart();
@@ -61,15 +77,26 @@ export default function StorePage() {
   };
 
   useEffect(() => {
+    loadData();
     syncCart();
-    const handleUpdate = () => syncCart();
-    window.addEventListener("cart-updated", handleUpdate);
-    return () => window.removeEventListener("cart-updated", handleUpdate);
+    const handleCartUpdate = () => syncCart();
+    const handleProductsUpdate = () => loadData();
+    const handleBrandsUpdate = () => loadData();
+
+    window.addEventListener("cart-updated", handleCartUpdate);
+    window.addEventListener("products-updated", handleProductsUpdate);
+    window.addEventListener("brands-updated", handleBrandsUpdate);
+
+    return () => {
+      window.removeEventListener("cart-updated", handleCartUpdate);
+      window.removeEventListener("products-updated", handleProductsUpdate);
+      window.removeEventListener("brands-updated", handleBrandsUpdate);
+    };
   }, []);
 
   // Filter products
   useEffect(() => {
-    let filtered = DUMMY_PRODUCTS;
+    let filtered = allProducts;
 
     if (selectedCategory !== "All") {
       filtered = filtered.filter((p) => p.category === selectedCategory);
@@ -92,7 +119,7 @@ export default function StorePage() {
     }
 
     setProducts(filtered);
-  }, [selectedCategory, selectedCompany, searchQuery]);
+  }, [allProducts, selectedCategory, selectedCompany, searchQuery]);
 
   const handleAddToCart = (product: ProductItem) => {
     const current = getStoredCart();
@@ -125,8 +152,7 @@ export default function StorePage() {
     saveCartToStorage(updated);
   };
 
-  // Filter companies for the modal search
-  const filteredCompanies = CARD_COMPANIES.filter((c) =>
+  const filteredCompanies = allCompanies.filter((c) =>
     c.name.toLowerCase().includes(companySearchQuery.toLowerCase()) ||
     c.category.toLowerCase().includes(companySearchQuery.toLowerCase()) ||
     c.tier.toLowerCase().includes(companySearchQuery.toLowerCase())

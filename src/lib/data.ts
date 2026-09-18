@@ -21,7 +21,7 @@ export interface ProductItem {
   id: string;
   name: string;
   genericName: string;
-  category: "Generic" | "Surgical" | "Ayurvedic" | "OTC";
+  category: "Generic" | "Surgical" | "Ayurvedic" | "OTC" | string;
   company: string;
   packSize: string;
   mrp: number;
