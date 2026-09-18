@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Store, ShieldCheck, User } from "lucide-react";
+import { Home, Store, User } from "lucide-react";
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -20,11 +20,6 @@ export function BottomNav() {
       icon: Store,
     },
     {
-      label: "Licenses",
-      href: "/licenses",
-      icon: ShieldCheck,
-    },
-    {
       label: "Account",
       href: "/account",
       icon: User,
@@ -32,8 +27,8 @@ export function BottomNav() {
   ];
 
   return (
-    <nav className="fixed bottom-3 left-3 right-3 max-w-sm mx-auto z-40 bg-[#071529]/95 backdrop-blur-2xl border border-slate-700/60 shadow-[0_12px_40px_rgba(0,0,0,0.5)] rounded-2xl py-1.5 px-2 md:hidden print:hidden transition-all duration-300">
-      <div className="grid grid-cols-4 items-center justify-items-center">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 py-1.5 px-3 md:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.06)] print:hidden">
+      <div className="grid grid-cols-3 items-center justify-items-center max-w-xs mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -42,32 +37,28 @@ export function BottomNav() {
             <Link
               key={item.label}
               href={item.href}
-              className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all duration-200 active:scale-95 group ${
-                isActive
-                  ? "text-white"
-                  : "text-slate-400 hover:text-slate-200"
+              className={`flex flex-col items-center justify-center py-1 px-4 active:scale-95 transition-all group ${
+                isActive ? "text-teal-700" : "text-slate-500 hover:text-slate-800"
               }`}
             >
               <div
-                className={`p-1.5 rounded-xl transition-all duration-300 ${
+                className={`p-1.5 rounded-xl transition-all ${
                   isActive
-                    ? "bg-gradient-to-r from-teal-500 to-emerald-500 text-white shadow-md shadow-teal-500/30 -translate-y-0.5 scale-110"
-                    : "group-hover:bg-white/10 text-slate-400 group-hover:text-white"
+                    ? "bg-teal-600 text-white shadow-xs scale-105"
+                    : "text-slate-600 group-hover:text-slate-900"
                 }`}
               >
                 <Icon className="w-4 h-4" />
               </div>
               <span
-                className={`text-[10px] tracking-tight mt-0.5 transition-colors ${
-                  isActive
-                    ? "font-bold text-teal-300"
-                    : "font-medium text-slate-400 group-hover:text-slate-200"
+                className={`text-[10px] tracking-tight mt-0.5 ${
+                  isActive ? "font-bold text-teal-800" : "font-medium text-slate-600"
                 }`}
               >
                 {item.label}
               </span>
               {isActive && (
-                <span className="w-1 h-1 rounded-full bg-teal-400 mt-0.5 shadow-[0_0_8px_rgba(45,212,191,0.9)] animate-in zoom-in" />
+                <span className="w-1 h-1 rounded-full bg-teal-600 mt-0.5 animate-in zoom-in" />
               )}
             </Link>
           );
