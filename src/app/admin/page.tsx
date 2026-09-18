@@ -10,15 +10,11 @@ import {
   updateOrderStatusInStorage,
   getStoredOffers,
   saveOffersToStorage,
-  getStoredProducts,
-  saveProductsToStorage,
   OrderRecord,
 } from "@/lib/store";
 import {
   COMPANY_DETAILS,
-  DUMMY_PRODUCTS,
   OFFER_SLIDES,
-  ProductItem,
   OfferSlide,
 } from "@/lib/data";
 import {
@@ -31,7 +27,6 @@ import {
   Search,
   Store,
   RefreshCw,
-  Tag,
   Plus,
   Trash2,
   CheckCircle2,
@@ -39,36 +34,28 @@ import {
   Phone,
   MapPin,
   FileText,
-  Layers,
   ShoppingBag,
-  SlidersHorizontal,
   X,
   Eye,
+  Upload,
+  Image as ImageIcon,
 } from "lucide-react";
 
 export default function AdminPage() {
   const [orders, setOrders] = useState<OrderRecord[]>([]);
   const [offers, setOffers] = useState<OfferSlide[]>(OFFER_SLIDES);
-  const [products, setProducts] = useState<ProductItem[]>(DUMMY_PRODUCTS);
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
-  const [activeTab, setActiveTab] = useState<"orders" | "customers" | "inventory" | "offers">("orders");
+  const [activeTab, setActiveTab] = useState<"orders" | "customers" | "offers">("orders");
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Customer Drill-down modal state
   const [inspectedCustomer, setInspectedCustomer] = useState<string | null>(null);
 
-  // New Offer Form State
-  const [showAddOfferModal, setShowAddOfferModal] = useState(false);
-  const [newOffer, setNewOffer] = useState({
-    occasion: "Festival Wholesale Scheme",
-    title: "",
-    subtitle: "",
-    highlight: "",
-    code: "",
-    badge: "Exclusive Retailer Offer",
-    imageUrl: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=80",
-    bgGradient: "from-[#0b1e36] via-[#102a4c] to-[#0f766e]",
-  });
+  // Simplified Banner Upload State (Image file or URL only)
+  const [showAddBannerModal, setShowAddBannerModal] = useState(false);
+  const [bannerImageUrl, setBannerImageUrl] = useState("");
+  const [bannerUploadError, setBannerUploadError] = useState("");
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const refreshAll = () => {
     const list = getStoredOrders();
@@ -80,9 +67,6 @@ export default function AdminPage() {
     } else {
       setOffers(OFFER_SLIDES);
     }
-
-    const storedProducts = getStoredProducts();
-    setProducts(storedProducts);
   };
 
   useEffect(() => {
@@ -90,12 +74,10 @@ export default function AdminPage() {
     const handleUpdate = () => refreshAll();
     window.addEventListener("orders-updated", handleUpdate);
     window.addEventListener("offers-updated", handleUpdate);
-    window.addEventListener("products-updated", handleUpdate);
 
     return () => {
       window.removeEventListener("orders-updated", handleUpdate);
       window.removeEventListener("offers-updated", handleUpdate);
-      window.removeEventListener("products-updated", handleUpdate);
     };
   }, []);
 
@@ -110,60 +92,59 @@ export default function AdminPage() {
     refreshAll();
   };
 
-  // Offers Manager
-  const handleCreateOffer = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newOffer.title || !newOffer.highlight) return;
+  // Handle Image File Upload (FileReader -> base64 DataURL)
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-    const offerItem: OfferSlide = {
-      id: `offer-${Date.now()}`,
-      ...newOffer,
+    if (!file.type.startsWith("image/")) {
+      setBannerUploadError("Please upload a valid image file (PNG, JPG, WebP, etc.)");
+      return;
+    }
+
+    setBannerUploadError("");
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const result = event.target?.result as string;
+      if (result) {
+        setBannerImageUrl(result);
+      }
     };
+    reader.readAsDataURL(file);
+  };
 
-    const updated = [offerItem, ...offers];
-    setOffers(updated);
-    saveOffersToStorage(updated);
-    setShowAddOfferModal(false);
-    setNewOffer({
-      occasion: "Festival Wholesale Scheme",
-      title: "",
+  // Publish simplified banner
+  const handlePublishBanner = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!bannerImageUrl.trim()) {
+      setBannerUploadError("Please provide an image by uploading a file or entering an image URL.");
+      return;
+    }
+
+    const newSlide: OfferSlide = {
+      id: `banner-${Date.now()}`,
+      imageUrl: bannerImageUrl.trim(),
+      title: "Wholesale Promotional Scheme",
       subtitle: "",
       highlight: "",
       code: "",
-      badge: "Exclusive Retailer Offer",
-      imageUrl: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=80",
-      bgGradient: "from-[#0b1e36] via-[#102a4c] to-[#0f766e]",
-    });
+      badge: "Promotional Banner",
+      occasion: "",
+      bgGradient: "from-slate-900 to-teal-950",
+    };
+
+    const updated = [newSlide, ...offers];
+    setOffers(updated);
+    saveOffersToStorage(updated);
+    setShowAddBannerModal(false);
+    setBannerImageUrl("");
+    setBannerUploadError("");
   };
 
   const handleDeleteOffer = (id: string) => {
     const updated = offers.filter((o) => o.id !== id);
     setOffers(updated);
     saveOffersToStorage(updated);
-  };
-
-  // Product Stock Toggle
-  const handleToggleStock = (id: string) => {
-    const updated = products.map((p) => {
-      if (p.id === id) {
-        return { ...p, inStock: !p.inStock };
-      }
-      return p;
-    });
-    setProducts(updated);
-    saveProductsToStorage(updated);
-  };
-
-  // Product Price Edit
-  const handlePriceEdit = (id: string, newWholesale: number) => {
-    const updated = products.map((p) => {
-      if (p.id === id) {
-        return { ...p, wholesalePrice: newWholesale };
-      }
-      return p;
-    });
-    setProducts(updated);
-    saveProductsToStorage(updated);
   };
 
   // KPIs
@@ -312,16 +293,6 @@ export default function AdminPage() {
             }`}
           >
             Customer Directory & History ({uniqueChemists.length})
-          </button>
-          <button
-            onClick={() => setActiveTab("inventory")}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
-              activeTab === "inventory"
-                ? "bg-[#0b1e36] text-white shadow-xs"
-                : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
-            }`}
-          >
-            Inventory & PTR Pricing ({products.length})
           </button>
           <button
             onClick={() => setActiveTab("offers")}
@@ -561,83 +532,7 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* TAB 3: INVENTORY & PTR PRICING */}
-        {activeTab === "inventory" && (
-          <div className="space-y-3">
-            <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <h3 className="font-bold text-sm text-slate-800">
-                  Wholesale Formulation Stock & Price Control
-                </h3>
-                <p className="text-xs text-slate-500">
-                  Adjust Price to Retailer (PTR) and toggle stock availability in real-time.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl border border-slate-200 overflow-x-auto shadow-xs">
-              <table className="w-full text-left border-collapse text-xs">
-                <thead>
-                  <tr className="border-b border-slate-200 text-slate-600 font-bold uppercase text-[10px] bg-slate-50">
-                    <th className="p-3">Product Description</th>
-                    <th className="p-3">Category</th>
-                    <th className="p-3">Company</th>
-                    <th className="p-3">Pack Size</th>
-                    <th className="p-3">Batch / Expiry</th>
-                    <th className="p-3 text-right">MRP (₹)</th>
-                    <th className="p-3 text-right">Wholesale PTR (₹)</th>
-                    <th className="p-3 text-center">Stock Toggle</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {products.map((prod) => (
-                    <tr key={prod.id} className="hover:bg-slate-50">
-                      <td className="p-3">
-                        <span className="font-bold text-slate-900 block">{prod.name}</span>
-                        <span className="text-[10px] text-slate-400 block">{prod.genericName}</span>
-                      </td>
-                      <td className="p-3">
-                        <Badge variant="secondary" className="text-[9px]">
-                          {prod.category}
-                        </Badge>
-                      </td>
-                      <td className="p-3 font-semibold text-teal-800">{prod.company}</td>
-                      <td className="p-3 text-slate-600">{prod.packSize}</td>
-                      <td className="p-3 font-mono text-[10px] text-slate-400">
-                        {prod.batchNo} • {prod.expDate}
-                      </td>
-                      <td className="p-3 text-right font-mono text-slate-500">₹{prod.mrp}</td>
-                      <td className="p-3 text-right">
-                        <input
-                          type="number"
-                          value={prod.wholesalePrice}
-                          onChange={(e) =>
-                            handlePriceEdit(prod.id, parseFloat(e.target.value) || 0)
-                          }
-                          className="w-20 px-2 py-1 text-right font-mono font-bold text-[#0b1e36] rounded border border-slate-300 bg-white"
-                        />
-                      </td>
-                      <td className="p-3 text-center">
-                        <button
-                          onClick={() => handleToggleStock(prod.id)}
-                          className={`px-2.5 py-1 rounded text-[10px] font-bold border transition-colors ${
-                            prod.inStock
-                              ? "bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100"
-                              : "bg-red-50 text-red-800 border-red-300 hover:bg-red-100"
-                          }`}
-                        >
-                          {prod.inStock ? "✓ In Stock" : "✕ Out of Stock"}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 4: PROMOTIONS & BANNER CAROUSEL MANAGER */}
+        {/* TAB 3: PROMOTIONS & BANNER MANAGER (IMAGE ONLY) */}
         {activeTab === "offers" && (
           <div className="space-y-4">
             <div className="bg-white p-4 rounded-xl border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -646,68 +541,63 @@ export default function AdminPage() {
                   Storefront Landscape Hero Banners
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Add designer-created landscape images (promotional banners, festival schemes, bulk rates) displayed with a direct &ldquo;Shop Now&rdquo; button on `/store`.
+                  Upload promotional banner images (or paste image URLs). The image covers the entire banner box on the store page with a direct &ldquo;Shop Now&rdquo; button.
                 </p>
               </div>
 
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => setShowAddOfferModal(true)}
-                className="bg-[#0b1e36] text-white text-xs font-bold flex items-center gap-1.5"
+                onClick={() => {
+                  setBannerUploadError("");
+                  setShowAddBannerModal(true);
+                }}
+                className="bg-[#0b1e36] text-white text-xs font-bold flex items-center gap-1.5 self-start sm:self-auto"
               >
                 <Plus className="w-3.5 h-3.5" />
-                <span>Upload / Add Landscape Banner</span>
+                <span>Upload / Add Banner</span>
               </Button>
             </div>
 
-            {/* Live Slides List */}
+            {/* Live Banners Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {offers.map((off) => (
                 <Card
                   key={off.id}
-                  className="p-3 sm:p-4 rounded-2xl border border-slate-200 overflow-hidden relative shadow-xs flex flex-col justify-between"
+                  className="p-3 rounded-2xl border border-slate-200 overflow-hidden shadow-xs flex flex-col justify-between bg-white"
                 >
                   <div className="relative rounded-xl overflow-hidden mb-3 border border-slate-200 group">
-                    <div className="relative aspect-[21/9] w-full overflow-hidden bg-slate-900">
+                    {/* Full cover container */}
+                    <div className="relative aspect-[21/9] sm:aspect-[24/8] w-full overflow-hidden bg-slate-950">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
-                        src={off.imageUrl || "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=80"}
-                        alt={off.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        src={off.imageUrl}
+                        alt="Store Banner"
+                        className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
                       />
-                      {/* Live Preview Overlay: Shop Now Button */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-black/20 p-3 flex flex-col justify-between">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] font-bold uppercase tracking-wider bg-teal-600/90 text-white px-2 py-0.5 rounded shadow-xs">
-                            {off.occasion || off.badge || "Live Scheme"}
-                          </span>
-                          <span className="text-[10px] font-mono font-bold bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded text-amber-300">
-                            {off.code || "WHOLESALE"}
-                          </span>
-                        </div>
 
-                        <div className="flex items-end justify-between">
-                          <div className="bg-black/50 backdrop-blur-xs px-2.5 py-1 rounded-lg text-white">
-                            <p className="text-xs font-bold leading-tight">{off.title}</p>
-                          </div>
-                          <span className="text-[10px] font-bold bg-white text-[#0b1e36] px-2.5 py-1 rounded-full shadow-md">
-                            Shop Now →
-                          </span>
-                        </div>
+                      {/* Subtle overlay with Shop Now badge */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent p-3 flex items-end justify-between pointer-events-none">
+                        <span className="text-[11px] font-bold text-white/90 bg-black/40 backdrop-blur-xs px-2.5 py-1 rounded-lg">
+                          Live on Store
+                        </span>
+                        <span className="text-[10px] font-bold bg-white text-[#0b1e36] px-3 py-1 rounded-full shadow-md">
+                          Shop Now →
+                        </span>
                       </div>
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                    <span className="text-[11px] text-slate-500 font-medium">
-                      Landscape Hero Banner • Live on `/store`
+                    <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-teal-600" />
+                      <span>Active Carousel Slide</span>
                     </span>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleDeleteOffer(off.id)}
-                      className="h-7 px-2 text-xs text-red-600 border-red-200 hover:bg-red-50 flex items-center gap-1"
+                      className="h-7 px-2.5 text-xs text-red-600 border-red-200 hover:bg-red-50 flex items-center gap-1"
                     >
                       <Trash2 className="w-3 h-3" />
                       <span>Remove</span>
@@ -828,138 +718,114 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Add New Offer Banner Modal */}
-      {showAddOfferModal && (
-        <div className="fixed inset-0 z-50 bg-[#0b1e36]/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in">
+      {/* Simplified Banner Upload Modal - File Upload or URL only */}
+      {showAddBannerModal && (
+        <div className="fixed inset-0 z-50 bg-[#0b1e36]/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in">
           <div className="bg-white rounded-2xl w-full max-w-lg p-5 sm:p-6 shadow-2xl border border-slate-200 relative">
             <button
-              onClick={() => setShowAddOfferModal(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+              onClick={() => setShowAddBannerModal(false)}
+              className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <div className="mb-3">
-              <h3 className="font-extrabold text-base text-[#0b1e36]">
-                Publish Landscape Designer Banner
+            <div className="mb-4">
+              <h3 className="font-extrabold text-base text-[#0b1e36] flex items-center gap-2">
+                <ImageIcon className="w-5 h-5 text-teal-600" />
+                <span>Upload Storefront Banner</span>
               </h3>
-              <p className="text-[11px] text-slate-500">
-                Upload designer-created promotional graphics. On the store page, a &ldquo;Shop Now&rdquo; button is automatically positioned over this banner.
+              <p className="text-[11px] text-slate-500 mt-1">
+                Upload your graphic file or paste an image URL. The banner image will cover the entire frame on the store page with an overlaid &ldquo;Shop Now&rdquo; button.
               </p>
             </div>
 
-            <form onSubmit={handleCreateOffer} className="space-y-3 text-xs">
-              {/* Landscape Image Live Preview */}
-              {newOffer.imageUrl && (
-                <div className="relative aspect-[21/9] w-full rounded-xl overflow-hidden bg-slate-900 border border-slate-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={newOffer.imageUrl}
-                    alt="Banner preview"
-                    className="w-full h-full object-cover"
+            <form onSubmit={handlePublishBanner} className="space-y-4 text-xs">
+              {/* Option 1: File Upload Box */}
+              <div>
+                <label className="font-bold text-slate-700 block mb-1.5">
+                  1. Upload from Computer / Phone
+                </label>
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="border-2 border-dashed border-teal-300 hover:border-teal-500 bg-teal-50/50 hover:bg-teal-50 rounded-xl p-4 text-center cursor-pointer transition-colors"
+                >
+                  <Upload className="w-7 h-7 mx-auto text-teal-600 mb-1" />
+                  <p className="font-bold text-slate-800 text-xs">Click to browse image file</p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">Supports PNG, JPG, WebP (Landscape recommended)</p>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-between p-2.5">
-                    <span className="text-[9px] font-bold bg-teal-600 text-white px-2 py-0.5 rounded">
-                      {newOffer.occasion || "Live Banner"}
-                    </span>
-                    <span className="text-[9px] font-bold bg-white text-[#0b1e36] px-2 py-0.5 rounded-full shadow">
-                      Shop Now →
-                    </span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="flex items-center gap-2">
+                <div className="flex-1 h-px bg-slate-200" />
+                <span className="text-[10px] uppercase font-bold text-slate-400">OR</span>
+                <div className="flex-1 h-px bg-slate-200" />
+              </div>
+
+              {/* Option 2: Image URL */}
+              <div>
+                <label className="font-bold text-slate-700 block mb-1">
+                  2. Paste Direct Image URL
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://images.unsplash.com/... or cloud image link"
+                  value={bannerImageUrl.startsWith("data:") ? "" : bannerImageUrl}
+                  onChange={(e) => {
+                    setBannerImageUrl(e.target.value);
+                    setBannerUploadError("");
+                  }}
+                  className="w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-900 font-mono text-[11px] focus:outline-none focus:ring-1 focus:ring-[#0b1e36]"
+                />
+              </div>
+
+              {bannerUploadError && (
+                <p className="text-red-600 text-[11px] font-semibold">{bannerUploadError}</p>
+              )}
+
+              {/* Live Preview - Covers whole container */}
+              {bannerImageUrl && (
+                <div className="space-y-1">
+                  <label className="font-bold text-slate-700 block text-[11px]">
+                    Live Storefront Preview (Cover Full Div):
+                  </label>
+                  <div className="relative aspect-[21/9] sm:aspect-[24/8] w-full rounded-xl overflow-hidden bg-slate-950 border border-slate-200 shadow-inner">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={bannerImageUrl}
+                      alt="Banner preview"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent flex items-end justify-between p-3 pointer-events-none">
+                      <span className="text-[10px] font-bold text-white/90 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded">
+                        Full Cover Banner
+                      </span>
+                      <span className="text-[10px] font-bold bg-white text-[#0b1e36] px-2.5 py-1 rounded-full shadow">
+                        Shop Now →
+                      </span>
+                    </div>
                   </div>
                 </div>
               )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Occasion / Festival / Scheme</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Diwali Scheme / Monsoon Slab"
-                    value={newOffer.occasion}
-                    onChange={(e) => setNewOffer({ ...newOffer, occasion: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-900 font-medium"
-                  />
-                </div>
-
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Landscape Image URL</label>
-                  <input
-                    type="url"
-                    required
-                    placeholder="https://images.unsplash.com/..."
-                    value={newOffer.imageUrl}
-                    onChange={(e) => setNewOffer({ ...newOffer, imageUrl: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-900 font-mono text-[11px]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="font-bold text-slate-700 block mb-1">Banner Title</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Festival Antibiotic Scheme"
-                  value={newOffer.title}
-                  onChange={(e) => setNewOffer({ ...newOffer, title: e.target.value })}
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-900"
-                />
-              </div>
-
-              <div>
-                <label className="font-bold text-slate-700 block mb-1">Subtitle</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Special stocking scheme for Bhagalpur retail chemists"
-                  value={newOffer.subtitle}
-                  onChange={(e) => setNewOffer({ ...newOffer, subtitle: e.target.value })}
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-900"
-                />
-              </div>
-
-              <div>
-                <label className="font-bold text-slate-700 block mb-1">Key Scheme Highlight (Bold)</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. 10 + 1 Free + 5% Cash Discount on Bulk Lots"
-                  value={newOffer.highlight}
-                  onChange={(e) => setNewOffer({ ...newOffer, highlight: e.target.value })}
-                  className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-900"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Scheme Code</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. SCHEME-FESTIVE"
-                    value={newOffer.code}
-                    onChange={(e) => setNewOffer({ ...newOffer, code: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-900 font-mono"
-                  />
-                </div>
-
-                <div>
-                  <label className="font-bold text-slate-700 block mb-1">Badge Tag</label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Bulk Deal"
-                    value={newOffer.badge}
-                    onChange={(e) => setNewOffer({ ...newOffer, badge: e.target.value })}
-                    className="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-900"
-                  />
-                </div>
-              </div>
-
-              <div className="pt-3 flex justify-end gap-2">
+              <div className="pt-3 border-t border-slate-100 flex justify-end gap-2">
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={() => setShowAddOfferModal(false)}
+                  onClick={() => {
+                    setShowAddBannerModal(false);
+                    setBannerImageUrl("");
+                    setBannerUploadError("");
+                  }}
+                  className="text-xs"
                 >
                   Cancel
                 </Button>
@@ -967,9 +833,9 @@ export default function AdminPage() {
                   type="submit"
                   variant="primary"
                   size="sm"
-                  className="bg-[#0b1e36] text-white font-bold"
+                  className="bg-[#0b1e36] text-white font-bold text-xs"
                 >
-                  Publish to Store Carousel
+                  Publish Banner to Store
                 </Button>
               </div>
             </form>

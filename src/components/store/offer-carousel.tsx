@@ -43,36 +43,36 @@ export function OfferCarousel() {
   };
 
   return (
-    <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm border border-slate-200/90 bg-slate-900 group">
-      {/* Full Landscape Graphic Banner Frame */}
-      <div className="relative w-full aspect-[21/9] sm:aspect-[24/8] md:aspect-[28/8] min-h-[150px] sm:min-h-[200px] max-h-[320px] overflow-hidden">
+    <div
+      onClick={handleShopNow}
+      className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm border border-slate-200/90 bg-slate-950 group cursor-pointer"
+    >
+      {/* Full Landscape Graphic Banner Frame - Image covers entire container */}
+      <div className="relative w-full aspect-[21/9] sm:aspect-[24/8] md:aspect-[28/8] min-h-[160px] sm:min-h-[210px] max-h-[340px] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={slide.imageUrl}
           alt={slide.title || "Promotional Wholesale Banner"}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out"
+          className="w-full h-full object-cover group-hover:scale-[1.015] transition-transform duration-700 ease-out"
           loading="eager"
         />
 
         {/* Subtle Dark Gradient Overlay at Bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/15 to-transparent pointer-events-none" />
 
         {/* Floating "Shop Now" Action on Bottom-Left */}
         <div className="absolute bottom-3 left-3 sm:bottom-5 sm:left-5 z-10 flex items-center gap-2">
           <button
-            onClick={handleShopNow}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleShopNow();
+            }}
             className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full bg-teal-600 hover:bg-teal-500 text-white font-black text-xs sm:text-sm shadow-lg hover:shadow-xl active:scale-95 transition-all transform hover:scale-105 border border-white/20"
           >
             <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span>Shop Now</span>
             <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-0.5" />
           </button>
-
-          {slide.occasion && (
-            <span className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-black/50 backdrop-blur-md text-white/90 text-[11px] font-bold border border-white/20">
-              {slide.occasion}
-            </span>
-          )}
         </div>
 
         {/* Slide Indicators (Dots) Bottom-Right */}
