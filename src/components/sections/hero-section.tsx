@@ -127,22 +127,22 @@ export function HeroSection() {
           {/* Right Column: Owner Profile with Dynamic Float Card (5 cols) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end">
             <div className="relative w-full max-w-sm">
-              {/* Decorative Gradient Ring Around Card */}
-              <div className="absolute -inset-1.5 bg-gradient-to-r from-teal-500 via-cyan-400 to-emerald-500 rounded-3xl blur-md opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200 animate-pulse-glow" />
+              {/* Subtle Decorative Ring Around Card */}
+              <div className="absolute -inset-1 bg-gradient-to-r from-teal-500/25 via-cyan-400/20 to-emerald-500/25 rounded-3xl blur-sm opacity-60" />
 
-              {/* Outer Card with Full Cover Image */}
-              <div className="relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border-2 border-white/80 shadow-2xl group bg-slate-950">
+              {/* Outer Card with Bright Natural Profile Picture */}
+              <div className="relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border-2 border-white/90 shadow-xl group bg-slate-100">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={COMPANY_DETAILS.ownerPhotoUrl}
                   alt={COMPANY_DETAILS.ownerName}
-                  className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 opacity-95"
+                  className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 opacity-100"
                   loading="eager"
                 />
 
                 {/* Top Badge Overlay */}
                 <div className="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between z-10">
-                  <span className="bg-[#071529]/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-teal-500/40 shadow-xs flex items-center gap-1.5">
+                  <span className="bg-[#071529]/80 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-teal-500/30 shadow-xs flex items-center gap-1.5">
                     <Award className="w-3 h-3 text-teal-400" />
                     Proprietor Profile
                   </span>
@@ -151,19 +151,19 @@ export function HeroSection() {
                   </span>
                 </div>
 
-                {/* Bottom Gradient Scrim Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent flex flex-col justify-end p-5 text-white z-10">
+                {/* Light & Subtle Bottom Gradient Scrim (Leaves Face & Body Fully Bright) */}
+                <div className="absolute bottom-0 inset-x-0 h-[42%] bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent flex flex-col justify-end p-4 sm:p-5 text-white z-10">
                   <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-tight">
                     {COMPANY_DETAILS.ownerName}
                   </h3>
                   <p className="text-xs font-bold text-teal-300 mt-0.5">
                     {COMPANY_DETAILS.role}
                   </p>
-                  <p className="text-[11px] text-slate-300 mt-0.5">
+                  <p className="text-[11px] text-slate-200 mt-0.5">
                     Saurav Medical Agency • Bhagalpur
                   </p>
 
-                  <div className="mt-3.5 pt-2.5 border-t border-white/20 flex items-center justify-between text-xs">
+                  <div className="mt-2.5 pt-2 border-t border-white/20 flex items-center justify-between text-xs">
                     <span className="text-[11px] text-slate-200 flex items-center gap-1.5 font-medium">
                       <FileCheck2 className="w-3.5 h-3.5 text-teal-400" />
                       Form 20B/21B Licensed

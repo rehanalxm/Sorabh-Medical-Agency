@@ -36,18 +36,18 @@ export function OwnerSection() {
           {/* Left Column: Owner Photograph Covering Entire Div (5 cols) */}
           <div className="lg:col-span-5">
             <div className="relative mx-auto max-w-sm">
-              <div className="relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border border-slate-200/90 shadow-lg group bg-slate-900">
+              <div className="relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl overflow-hidden border border-slate-200/90 shadow-lg group bg-slate-100">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={COMPANY_DETAILS.ownerPhotoUrl}
                   alt={COMPANY_DETAILS.ownerName}
-                  className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 opacity-95"
+                  className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 opacity-100"
                   loading="lazy"
                 />
 
                 {/* Top Overlay Badge */}
                 <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
-                  <span className="bg-[#0b1e36]/85 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-white/20 shadow-xs">
+                  <span className="bg-[#0b1e36]/80 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full border border-white/20 shadow-xs">
                     About the Founder
                   </span>
                   <span className="bg-teal-700/90 backdrop-blur-md text-white text-[10px] font-mono font-bold px-2.5 py-1 rounded-full shadow-xs">
@@ -55,8 +55,8 @@ export function OwnerSection() {
                   </span>
                 </div>
 
-                {/* Bottom Overlay Info */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent flex flex-col justify-end p-5 text-white z-10">
+                {/* Light & Subtle Bottom Gradient Scrim (Leaves Face & Body Fully Bright) */}
+                <div className="absolute bottom-0 inset-x-0 h-[42%] bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent flex flex-col justify-end p-4 sm:p-5 text-white z-10">
                   <h3 className="text-xl sm:text-2xl font-black tracking-tight leading-tight">
                     {COMPANY_DETAILS.ownerName}
                   </h3>
