@@ -20,7 +20,7 @@ import { COMPANY_DETAILS } from "@/lib/data";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-teal-50/60 via-white to-slate-50/80 pt-6 pb-12 sm:pt-14 sm:pb-20 border-b border-slate-200/80">
+    <section className="relative overflow-hidden bg-gradient-to-b from-teal-50/60 via-white to-slate-50/80 pt-4 pb-10 sm:pt-8 sm:pb-16 border-b border-slate-200/80">
       {/* Dynamic Animated Ambient Light Orbs */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-20 -right-20 w-80 sm:w-[500px] h-80 sm:h-[500px] bg-gradient-to-br from-teal-400/25 to-cyan-300/15 rounded-full blur-3xl animate-pulse-glow" />
@@ -32,21 +32,6 @@ export function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Copy, Highlights & CTAs (7 cols) */}
           <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
-            {/* Top Live Classification Tag with Animated Radar Glow */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-teal-500/30 shadow-xs hover:border-teal-500/60 transition-all">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-600" />
-              </span>
-              <span className="text-[#071529] font-extrabold text-xs tracking-tight">
-                Wholesale Medicine Stockist
-              </span>
-              <span className="text-slate-300">•</span>
-              <span className="text-teal-800 font-semibold text-xs flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-teal-600 inline" /> Bhagalpur, Bihar
-              </span>
-            </div>
-
             {/* Headline with Radiant Gradient Accent */}
             <div className="space-y-2">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-black tracking-tight text-[#071529] leading-[1.12]">
